@@ -1,0 +1,9 @@
+adafruit-blinka
+adafruit-circuitpython-neopixel
+numpy~=1.26.4
+Pillow~=10.2.0
+board~=1.0
+neopixel~=0.0.1
+pygame~=2.5.2
+matplotlib~=3.8.2
+rpi_ws281x==4.2.4
