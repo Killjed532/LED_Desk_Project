@@ -28,6 +28,7 @@ END_LED = 2330
 strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, WS2812_STRIP, GAMMA)
 strip.begin()
 color_index = 0
+COLOR_STEP = 256
 
 
 def update_led_strip_with_current_color():
@@ -37,7 +38,7 @@ def update_led_strip_with_current_color():
     g = (color_index // 255) % 255
     b = color_index % 255
 
-    color_index = (color_index + 1) % (255 * 255 * 255)
+    color_index = (color_index + COLOR_STEP) % (255 * 255 * 255)
 
     color = Color(r, g, b)
     for i in range(START_LED, END_LED):
@@ -72,8 +73,9 @@ def display_frames(frames):
     # Display the current frame
     for frame in frames:
         display_frame_on_led(frame)
-        update_led_strip_with_current_color()
-        time.sleep(.15)
+        for _ in range(3):
+            update_led_strip_with_current_color()
+            time.sleep(.05)
 
 
 index = 0  # Initialize index to start from the first GIF file
