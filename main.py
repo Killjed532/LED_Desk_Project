@@ -45,7 +45,7 @@ def update_led_strip_with_current_color():
     current_blue = current_blue + blue_iterator
     if current_blue >= 250 or current_blue <= 0:
         blue_iterator = -blue_iterator
-    color = Color(current_red, current_green, current_blue)  # Create the color value
+    color = Color(current_red, current_green, current_blue)
     for i in range(START_LED, END_LED):  # Iterate over each LED in the specified range
         strip.setPixelColor(i, color)  # Set the color for the current LED
     strip.show()
@@ -67,8 +67,8 @@ def display_frame_on_led(frame):
                 index = y * LED_WIDTH + (LED_WIDTH - 1 - x)
 
             # Get the RGB (and optionally W) values for the current pixel
-            r, g, b = frame[y, x][:3]  # Safely ignore potential W component
-            color = Color(r, g, b)  # Assuming GRB order for RGB LEDs
+            r, g, b = int(frame[y, x][0]), int(frame[y, x][1]), int(frame[y, x][2])
+            color = Color(r, g, b)
             # Set the color of the pixel
             strip.setPixelColor(index, color)
 

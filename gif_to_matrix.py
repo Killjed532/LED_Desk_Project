@@ -9,11 +9,9 @@ def get_frames_from_gif(gif_path):
         for frame in ImageSequence.Iterator(gif):
             frame = frame.convert('RGB')
             frame = frame.resize((50, 30))
-            np_frame = np.array(frame)
+            np_frame = np.asarray(frame, dtype=np.uint8).copy()
             frames.append(np_frame)
         return frames
     except Exception as e:
         print(f"An error occurred while processing {gif_path}: {e}")
         return []
-
-
