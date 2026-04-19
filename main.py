@@ -27,20 +27,23 @@ END_LED = 2330
 # Create PixelStrip object with the specified configuration
 strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, WS2812_STRIP, GAMMA)
 strip.begin()
-color_index = 0
-COLOR_STEP = 256
+current_r, current_g, current_b = 0, 0, 0
 
 
 def update_led_strip_with_current_color():
-    global color_index
+    global current_r, current_g, current_b
 
-    r = color_index // (255 * 255)
-    g = (color_index // 255) % 255
-    b = color_index % 255
+    current_b += 1
+    if current_b > 255:
+        current_b = 0
+        current_g += 1
+        if current_g > 255:
+            current_g = 0
+            current_r += 1
+            if current_r > 255:
+                current_r = 0
 
-    color_index = (color_index + COLOR_STEP) % (255 * 255 * 255)
-
-    color = Color(r, g, b)
+    color = Color(current_r, current_g, current_b)
     for i in range(START_LED, END_LED):
         strip.setPixelColor(i, color)
     strip.show()
