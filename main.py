@@ -27,27 +27,21 @@ END_LED = 2330
 # Create PixelStrip object with the specified configuration
 strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, WS2812_STRIP, GAMMA)
 strip.begin()
-current_red, current_green, current_blue = 0, 0, 0
-red_iterator = 1
-green_iterator = 2
-blue_iterator = 3
+color_index = 0
 
 
 def update_led_strip_with_current_color():
-    global current_red, current_green, current_blue, red_iterator, green_iterator, blue_iterator
+    global color_index
 
-    current_red = current_red + red_iterator
-    if current_red >= 250 or current_red <= 0:
-        red_iterator = -red_iterator
-    current_green = current_green + green_iterator
-    if current_green >= 250 or current_green <= 0:
-        green_iterator = -green_iterator
-    current_blue = current_blue + blue_iterator
-    if current_blue >= 250 or current_blue <= 0:
-        blue_iterator = -blue_iterator
-    color = Color(current_red, current_green, current_blue)
-    for i in range(START_LED, END_LED):  # Iterate over each LED in the specified range
-        strip.setPixelColor(i, color)  # Set the color for the current LED
+    r = color_index // (255 * 255)
+    g = (color_index // 255) % 255
+    b = color_index % 255
+
+    color_index = (color_index + 1) % (255 * 255 * 255)
+
+    color = Color(r, g, b)
+    for i in range(START_LED, END_LED):
+        strip.setPixelColor(i, color)
     strip.show()
 
 
@@ -73,15 +67,6 @@ def display_frame_on_led(frame):
             strip.setPixelColor(index, color)
 
     strip.show()
-
-    """for i in range(START_LED, END_LED):
-        # Directly map the color index to RGB components
-        red = random.randint(0, 255)
-        green = random.randint(0, 255)
-        blue = random.randint(0, 255)
-        color = Color(red, green, blue)
-        strip.setPixelColor(i, color)"""
-
 
 def display_frames(frames):
     # Display the current frame
